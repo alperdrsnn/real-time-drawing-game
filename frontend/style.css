@@ -2,6 +2,8 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
     background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
 }
 
 h1 {
@@ -85,4 +87,49 @@ canvas {
     transform: translate(-50%, -50%);
     font-size: 24px;
     color: red;
+}
+
+#wordOptionsContainer {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 2px solid #333;
+    padding: 20px;
+    z-index: 1000;
+}
+
+#wordOptionsContainer button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+#scoreTableContainer {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 200px;
+    background-color: #fff;
+    border: 2px solid #333;
+    padding: 10px;
+    text-align: left;
+}
+
+.score-table ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.score-table li {
+    margin-bottom: 5px;
+}
+
+#wordDisplay {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 18px;
+    color: #333;
 }
