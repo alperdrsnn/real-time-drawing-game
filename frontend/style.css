@@ -24,6 +24,10 @@ canvas {
     display: none;
 }
 
+#gameContainer.hidden {
+    display: none;
+}
+
 #gameContainer {
     display: flex;
     justify-content: center;
@@ -68,8 +72,4 @@ canvas {
     transform: translate(-50%, -50%);
     font-size: 24px;
     color: red;
-}
-
-.hidden {
-    display: none;
 }
