@@ -55,6 +55,13 @@ module.exports = (io) => {
 
         socket.on('drawing', (data) => {
             const { roomId, x, y, color } = data;
+
+            //some validation
+            if (typeof roomId !== "string" || typeof x !== 'number' || typeof y !== 'number' || typeof color !== 'string') {
+                console.log(`Invalid drawing data from ${socket.id}`);
+                socket.emit('error', { message: 'Invalid drawing data.' });
+            }
+
             if (isPlayerAndGameStarted(socket, roomId)) {
                 if (rooms[roomId]) {
                     rooms[roomId].drawings.push({ x, y, color });
