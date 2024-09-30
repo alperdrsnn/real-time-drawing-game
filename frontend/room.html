@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drawing Room</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1>Welcome to the Drawing Room</h1>
+
+    <div id="usernamePrompt" class="prompt">
+        <label for="username">Enter your username</label>
+        <input type="text" id="username" />
+        <button id="joinRoom">Join Room</button>
+    </div>
+
+    <div id="countdown" class="hidden">Game starting in <span id="countdownNumber">20</span> seconds...</div>
+    <div id="spectatorMessage" class="hidden">You are a spectator. The game has already started.</div>
+
+    <div id="gameContainer" class="hidden">
+        <canvas id="drawingCanvas"></canvas>
+
+        <div id="controls">
+            <input type="color" id="colorPicker" value="#000000" />
+            <button id="undoBtn">Undo</button>
+        </div>
+
+        <div id="chatContainer">
+            <div id="chatMessages"></div>
+            <input type="text" id="chatInput" placeholder="Type your message..." />
+            <button id="sendChatBtn">Send</button>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/app.js"></script>
+
+    <script>
+        socket.emit('joinRoom', roomId);
+    </script>
+</body>
+</html>
