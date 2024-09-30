@@ -11,8 +11,6 @@ h1 {
 canvas {
     border: 1px solid #000;
     background-color: #fff;
-    display: block;
-    margin: 20px auto;
     cursor: crosshair;
 }
 
@@ -31,6 +29,8 @@ canvas {
 #gameContainer {
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+    margin-top: 20px;
 }
 
 #chatContainer {
@@ -58,11 +58,24 @@ canvas {
 
 #controls {
     margin: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#controls input, #controls button {
+    margin-bottom: 10px;
 }
 
 #undoBtn {
     margin-left: 10px;
     padding: 5px;
+}
+
+#undoBtn:disabled,
+#colorPicker:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 #countdown, #spectatorMessage {

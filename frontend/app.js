@@ -19,6 +19,7 @@ let drawing = false;
 const roomId = window.location.pathname.split('/').pop();
 let username = '';
 let isSpectator = false;
+let canDraw = false;
 
 const usernamePrompt = document.getElementById('usernamePrompt');
 const joinRoomButton = document.getElementById('joinRoom');
@@ -44,23 +45,40 @@ socket.on('countdown', (data) => {
 
 socket.on('gameStart', () => {
     countdownElement.classList.add('hidden');
+    if (!isSpectator) {
+        canDraw = true;
+        enableDrawingTools();
+    }
 });
 
 socket.on('spectator', (data) => {
     spectatorMessage.textContent = data.message;
     spectatorMessage.classList.remove('hidden');
     isSpectator = true;
+    disableDrawingTools();
 })
 
+function enableDrawingTools() {
+    canvas.style.pointerEvents = 'auto';
+    colorPicker.disabled = false;
+    undoBtn.disabled = false;
+}
+
+function disableDrawingTools() {
+    canvas.style.pointerEvents = 'none';
+    colorPicker.disabled = true;
+    undoBtn.disabled = true;
+}
+
 const startDrawing = (e) => {
-    if (isSpectator) return;
+    if (!canDraw) return;
     drawing = true;
     ctx.beginPath();
     ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
 }
 
 const endDrawing = () => {
-    if (isSpectator) return;
+    if (!canDraw) return;
     drawing = false;
 }
 
@@ -125,7 +143,7 @@ sendChatBtn.addEventListener('click', () => {
 });
 
 undoBtn.addEventListener('click', () => {
-    if (isSpectator) return;
+    if (!canDraw) return;
     socket.emit('undo', roomId);
 });
 

@@ -10,11 +10,12 @@ module.exports = (io) => {
             console.log(`${username} (${socket.id}) joined room: ${roomId}`);
 
             if (!rooms[roomId]) {
-                rooms[roomId] = { players: [], drawings: [], countdownStarted: false };
+                rooms[roomId] = { players: [], spectators: [], drawings: [], countdownStarted: false };
                 roomStates[roomId] = { started: false };
             }
 
             if (roomStates[roomId].started) {
+                rooms[roomId].spectators.push({ id: socket.id, username });
                 socket.emit('spectator', { message: 'The game has already started, you are now a spectator.' });
             } else {
                 rooms[roomId].players.push({ id: socket.id, username });
@@ -42,18 +43,36 @@ module.exports = (io) => {
             }
         });
 
+        //Middleware to check if user is a player and the game has started!!
+        const isPlayerAndGameStarted = (socket, roomId) => {
+            const room = rooms[roomId];
+            const state = roomStates[roomId];
+            if (!room || !state || !state.started) {
+                return false;
+            }
+            return room.players.some(player => player.id === socket.id);
+        }
+
         socket.on('drawing', (data) => {
             const { roomId, x, y, color } = data;
-            if (rooms[roomId]) {
-                rooms[roomId].drawings.push({ x, y, color });
-                socket.to(roomId).emit('drawing', { x, y, color });
+            if (isPlayerAndGameStarted(socket, roomId)) {
+                if (rooms[roomId]) {
+                    rooms[roomId].drawings.push({ x, y, color });
+                    socket.to(roomId).emit('drawing', { x, y, color });
+                }
+            } else {
+                console.log(`Unauthorized drawing attempt by ${socket.id} in room ${roomId}`);
             }
         });
 
         socket.on('undo', (roomId) => {
-            if (rooms[roomId] && rooms[roomId].drawings.length > 0) {
-                rooms[roomId].drawings.pop();
-                io.to(roomId).emit('loadDrawings', rooms[roomId].drawings);
+            if (isPlayerAndGameStarted(socket, roomId)) {
+                if (rooms[roomId] && rooms[roomId].drawings.length > 0) {
+                    rooms[roomId].drawings.pop();
+                    io.to(roomId).emit('loadDrawings', rooms[roomId].drawings);
+                }
+            } else {
+                console.log(`Unauthorized drawing attempt by ${socket.id} in room ${roomId}`);
             }
         });
 
@@ -72,6 +91,14 @@ module.exports = (io) => {
                     const username = rooms[roomId].players[playerIndex].username;
                     rooms[roomId].players.splice(playerIndex, 1);
                     socket.to(roomId).emit('message', { username: 'System', message: `${username} has left the room.` });
+                    break;
+                }
+
+                const spectatorIndex = rooms[roomId].spectators.findIndex(s => s.id === socket.id);
+                if (spectatorIndex !== -1) {
+                    const username = rooms[roomId].spectators[playerIndex].username;
+                    rooms[roomId].spectators.splice(spectatorIndex, 1);
+                    io.to(roomId).emit('message', { username: 'System', message: `${username} has left the room.` });
                     break;
                 }
             }
