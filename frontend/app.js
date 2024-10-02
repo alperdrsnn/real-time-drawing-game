@@ -27,6 +27,7 @@ let wordSelectionTimeout = null;
 
 const wordOptionsContainer = document.createElement('div');
 wordOptionsContainer.id = 'wordOptionsContainer';
+wordOptionsContainer.classList.add("hidden");
 document.body.appendChild(wordOptionsContainer);
 
 const usernamePrompt = document.getElementById('usernamePrompt');
@@ -68,6 +69,7 @@ socket.on('turnInfo', (data) => {
 
 socket.on('wordOptions', ({ options }) => {
     if (isSpectator) return;
+    wordOptionsContainer.classList.remove("hidden");
 
     wordOptionsContainer.innerHTML = '<h3>Choose a Word:</h3>';
     options.forEach(word => {
@@ -75,6 +77,7 @@ socket.on('wordOptions', ({ options }) => {
         button.textContent = word;
         button.addEventListener('click', () => {
             socket.emit('wordChosen', { chosenWord: word });
+            wordOptionsContainer.classList.add("hidden");
             wordOptionsContainer.innerHTML = '';
         });
         wordOptionsContainer.appendChild(button);
