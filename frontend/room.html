@@ -6,15 +6,16 @@
     <title>Drawing Room</title>
     <link rel="stylesheet" href="/style.css">
 </head>
-<body>
-    <h1>Welcome to the Drawing Room</h1>
+    <div class="joinRoom" id="usernamePromptClass">
+        <h1>Welcome to the Drawing Room</h1>
 
-    <div id="usernamePrompt" class="prompt">
-        <label for="username">Enter your username</label>
-        <input type="text" id="username" />
-        <button id="joinRoom">Join Room</button>
+        <div id="usernamePrompt" class="prompt">
+            <input type="text" id="username" placeholder="Enter your username" />
+            <button id="joinRoom">Join Room</button>
+        </div>
     </div>
 
+    <div id="loading" class="hidden"><span>Lobby needs up to 2 player for start...</span></div>
     <div id="countdown" class="hidden">Game starting in <span id="countdownNumber">20</span> seconds...</div>
     <div id="spectatorMessage" class="hidden">You are a spectator. The game has already started.</div>
 
