@@ -7,6 +7,7 @@ const chatInput = document.getElementById('chatInput');
 const sendChatBtn = document.getElementById('sendChatBtn');
 const colorPicker = document.getElementById('colorPicker');
 const undoBtn = document.getElementById('undoBtn');
+const loadingDiv = document.getElementById('loading');
 const countdownElement = document.getElementById('countdown');
 const countdownNumberElement = document.getElementById('countdownNumber');
 const spectatorMessage = document.getElementById('spectatorMessage');
@@ -30,7 +31,7 @@ wordOptionsContainer.id = 'wordOptionsContainer';
 wordOptionsContainer.classList.add("hidden");
 document.body.appendChild(wordOptionsContainer);
 
-const usernamePrompt = document.getElementById('usernamePrompt');
+const usernamePrompt = document.getElementById('usernamePromptClass');
 const joinRoomButton = document.getElementById('joinRoom');
 const gameContainer = document.getElementById('gameContainer');
 
@@ -47,7 +48,12 @@ joinRoomButton.addEventListener('click', () => {
     gameContainer.classList.remove('hidden');
 });
 
+socket.on('loading', () => {
+    loadingDiv.classList.remove('hidden');
+});
+
 socket.on('countdown', (data) => {
+    loadingDiv.classList.add('hidden');
     countdownElement.classList.remove('hidden');
     countdownNumberElement.textContent = data.countdown;
 });
@@ -132,9 +138,9 @@ socket.on('wordSelected', ({ drawer }) => {
 });
 
 socket.on('updateScores', ({ scores }) => {
-    let scoreHtml = '<h2>Scoreboard</h2><ul>';
+    let scoreHtml = '<ul>';
     scores.forEach(({ username, score }) => {
-        scoreHtml += `<li>${username}: ${score}</li>`;
+        scoreHtml += `<li><span class="scoreAuthor">${username}:</span><span class="score"> ${score} pts</span></li>`;
     });
     scoreHtml += '</ul>';
     scoreTable.innerHTML = scoreHtml;
@@ -258,7 +264,15 @@ function showWordSelection(word) {
 
 socket.on('message', (data) => {
     const messageElement = document.createElement('div');
-    messageElement.textContent = `${data.username}: ${data.message}`;
+    const messageAuthor = document.createElement('span');
+    const messageContent = document.createElement('span');
+    messageAuthor.classList.add("chatMessageAuthor")
+    messageContent.classList.add("chatMessageContent")
+    messageElement.classList.add("chatMessage")
+    messageAuthor.textContent = `${data.username}: `;
+    messageContent.textContent = `${data.message}`
+    messageElement.appendChild(messageAuthor);
+    messageElement.appendChild(messageContent);
     chatMessages.appendChild(messageElement);
 
     chatMessages.scrollTop = chatMessages.scrollHeight;

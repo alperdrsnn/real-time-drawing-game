@@ -1,19 +1,111 @@
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f5f5f5;
+    font-family: 'Satoshi', sans-serif;
+    background: linear-gradient(135deg, #2E073F 0%, #EBD3F8 100%);
+    background-repeat: no-repeat;
+    height: 100vh;
     margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 0;
 }
 
 h1 {
-    color: #333;
+    color: #AD49E1;
+    background-color: rgba(0, 0, 0, 0.5); /* Yarı şeffaf koyu bir arka plan ekle */
+    padding: 10px 20px;
+    border-radius: 10px;
 }
 
 canvas {
     border: 1px solid #000;
     background-color: #fff;
     cursor: crosshair;
+}
+
+.homePage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+#createRoomBtn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: rgba(37, 32, 32, 0.5);
+    color: #EBD3F8;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+#createRoomBtn:hover {
+    background-color: #7A1CAC;
+}
+
+.joinRoom {
+    flex-direction: column
+}
+
+#usernamePrompt {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+#usernamePrompt button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: rgba(37, 32, 32, 0.5);
+    color: #EBD3F8;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+#usernamePrompt input {
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    width: 200px;
+    text-align: center;
+    border: none;
+}
+
+#loading {
+    position: fixed; /* Ekranın tamamını kaplayacak şekilde sabit */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6); /* Yarı şeffaf arka plan */
+    z-index: 9999; /* En üst katmanda göstermek için yüksek z-index */
+    font-size: 24px;
+    color: white; /* Yazı rengi beyaz */
+}
+
+#loading span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    font-size: 24px;
+}
+
+#username:focus {
+    outline: none;
+    box-shadow: 0px 0px 25px lightblue;
+}
+
+#usernamePrompt button:hover {
+    background-color: #7A1CAC;
 }
 
 .prompt {
@@ -50,6 +142,45 @@ canvas {
     overflow-y: auto;
     border-bottom: 1px solid #ccc;
     margin-bottom: 10px;
+}
+
+#chatMessages::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+#chatMessages::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+#chatMessages::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #aaaaaa;
+}
+
+.chatMessage {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    margin-top: 7px;
+    height: auto;
+    padding: 10px;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.chatMessageAuthor {
+    color:#ccc
+}
+
+.chatMessageContent {
+    color:#fff;
+    word-wrap: break-word;
 }
 
 #chatInput {
@@ -115,6 +246,25 @@ canvas {
     border: 2px solid #333;
     padding: 10px;
     text-align: left;
+}
+
+#scoreTableContainer h1 {
+    text-align: center;
+    justify-items: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.scoreAuthor {
+    font-family: 'Satoshi', sans-serif;
+    font-size: 19px;
+    color: #3b3b3b;
+}
+
+.score {
+    font-family: 'Satoshi', sans-serif;
+    font-size: 17px;
+    color: #0da100;
 }
 
 .score-table ul {

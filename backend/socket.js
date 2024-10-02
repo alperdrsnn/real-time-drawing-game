@@ -44,7 +44,9 @@ module.exports = (io) => {
                 socket.emit('loadDrawings', room.drawings);
                 socket.to(roomId).emit('message', { username: 'System', message: `${username} has joined the room!` });
 
-                if (room.players.length >= 2 && !room.countdownStarted) {
+                if (room.players.length < 2 && !room.countdownStarted) {
+                    io.to(roomId).emit('loading');
+                } else if (room.players.length >= 2 && !room.countdownStarted) {
                     room.countdownStarted = true;
                     let countdown = 20;
                     io.to(roomId).emit('countdown', { countdown });
@@ -85,7 +87,7 @@ module.exports = (io) => {
             room.currentWordOptions = options;
             io.to(currentDrawerId).emit('wordOptions', { options });
 
-            let selectionCountdown = 20;
+            let selectionCountdown = 20; 
             io.to(roomId).emit('turnInfo', { message: `${currentDrawer.username} is choosing a word...` });
 
             room.selectionTimeout = setTimeout(() => {

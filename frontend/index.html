@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Real Time Drawing Game</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.cdnfonts.com/css/satoshi" rel="stylesheet" />
 </head>
+
 <body>
-    <h1>Real Time Drawing</h1>
-    <button id="createRoomBtn">Create New Room</button>
+    <div class="homePage">
+        <h1>Real Time Drawing</h1>
+        <button id="createRoomBtn">Create New Room</button>
+    </div>
 
     <script>
-        document.getElementById('createRoomBtn').addEventListener('click', () => {
-            window.location.href = '/create-room'; //create new room
-        })
+        document.getElementById("createRoomBtn").addEventListener("click", () => {
+            window.location.href = "/create-room"; //create new room
+        });
     </script>
 </body>
+
 </html>
